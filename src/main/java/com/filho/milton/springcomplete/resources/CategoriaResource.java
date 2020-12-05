@@ -1,7 +1,5 @@
 package com.filho.milton.springcomplete.resources;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import com.filho.milton.springcomplete.domain.Categoria;
