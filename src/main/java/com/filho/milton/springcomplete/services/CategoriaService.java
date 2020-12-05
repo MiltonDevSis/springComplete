@@ -3,7 +3,7 @@ package com.filho.milton.springcomplete.services;
 import java.util.Optional;
 
 import com.filho.milton.springcomplete.domain.Categoria;
-import com.filho.milton.springcomplete.repositories.CategoriaRepositoty;
+import com.filho.milton.springcomplete.repositories.CategoriaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 public class CategoriaService {
 
     @Autowired
-    private CategoriaRepositoty repo;
+    private CategoriaRepository repo;
 
-    public Optional<Categoria> buscar(Integer id) {
+    public Categoria buscar(Integer id) {
 
         Optional<Categoria> obj = repo.findById(id);
-        return obj;
+        return obj.orElse(null);
 
     }
 }
