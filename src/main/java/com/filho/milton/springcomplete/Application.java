@@ -4,10 +4,15 @@ import java.util.Arrays;
 
 import com.filho.milton.springcomplete.domain.Categoria;
 import com.filho.milton.springcomplete.domain.Cidade;
+import com.filho.milton.springcomplete.domain.Cliente;
+import com.filho.milton.springcomplete.domain.Endereco;
 import com.filho.milton.springcomplete.domain.Estado;
 import com.filho.milton.springcomplete.domain.Produto;
+import com.filho.milton.springcomplete.domain.enums.TipoCliente;
 import com.filho.milton.springcomplete.repositories.CategoriaRepository;
 import com.filho.milton.springcomplete.repositories.CidadeRepository;
+import com.filho.milton.springcomplete.repositories.ClienteRepository;
+import com.filho.milton.springcomplete.repositories.EnderecoRepository;
 import com.filho.milton.springcomplete.repositories.EstadoRepository;
 import com.filho.milton.springcomplete.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class Application implements CommandLineRunner {
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -64,6 +73,19 @@ public class Application implements CommandLineRunner {
 
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOA_FISICA);
+
+		cli1.getTelefones().addAll(Arrays.asList("123456789", "987654321"));
+
+		Endereco e1 = new Endereco(null, "Rua flores", "300", "apto 303", "Jardim", "88845000", cli1, c1);
+
+		Endereco e2 = new Endereco(null, "Avenida Mattos", "105", "Sala 808", "Centro", "88840000", cli1, c2);
+
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
 	}
 }
