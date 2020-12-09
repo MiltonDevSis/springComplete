@@ -1,5 +1,6 @@
 package com.filho.milton.springcomplete;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import com.filho.milton.springcomplete.domain.Categoria;
@@ -7,13 +8,20 @@ import com.filho.milton.springcomplete.domain.Cidade;
 import com.filho.milton.springcomplete.domain.Cliente;
 import com.filho.milton.springcomplete.domain.Endereco;
 import com.filho.milton.springcomplete.domain.Estado;
+import com.filho.milton.springcomplete.domain.Pagamento;
+import com.filho.milton.springcomplete.domain.PagamentoComBoleto;
+import com.filho.milton.springcomplete.domain.PagamentoComCartao;
+import com.filho.milton.springcomplete.domain.Pedido;
 import com.filho.milton.springcomplete.domain.Produto;
+import com.filho.milton.springcomplete.domain.enums.EstadoPagamento;
 import com.filho.milton.springcomplete.domain.enums.TipoCliente;
 import com.filho.milton.springcomplete.repositories.CategoriaRepository;
 import com.filho.milton.springcomplete.repositories.CidadeRepository;
 import com.filho.milton.springcomplete.repositories.ClienteRepository;
 import com.filho.milton.springcomplete.repositories.EnderecoRepository;
 import com.filho.milton.springcomplete.repositories.EstadoRepository;
+import com.filho.milton.springcomplete.repositories.PagamentoRepository;
+import com.filho.milton.springcomplete.repositories.PedidoRepository;
 import com.filho.milton.springcomplete.repositories.ProdutoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +44,10 @@ public class Application implements CommandLineRunner {
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -79,7 +91,6 @@ public class Application implements CommandLineRunner {
 		cli1.getTelefones().addAll(Arrays.asList("123456789", "987654321"));
 
 		Endereco e1 = new Endereco(null, "Rua flores", "300", "apto 303", "Jardim", "88845000", cli1, c1);
-
 		Endereco e2 = new Endereco(null, "Avenida Mattos", "105", "Sala 808", "Centro", "88840000", cli1, c2);
 
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
@@ -87,5 +98,19 @@ public class Application implements CommandLineRunner {
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Pedido ped1 = new Pedido(null, sdf.parse("10/12/2020 10:32"),cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("15/12/1989 20:30"), cli1, e2);
+
+		Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pagto1);
+		Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("12/12/2020 21:30"), null);
+		ped2.setPagamento(pagto2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 	}
 }

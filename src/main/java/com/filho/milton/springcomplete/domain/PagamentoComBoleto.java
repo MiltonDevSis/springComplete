@@ -2,8 +2,11 @@ package com.filho.milton.springcomplete.domain;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+
 import com.filho.milton.springcomplete.domain.enums.EstadoPagamento;
 
+@Entity
 public class PagamentoComBoleto extends Pagamento {
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +18,7 @@ public class PagamentoComBoleto extends Pagamento {
 
     public PagamentoComBoleto(Integer id, EstadoPagamento estado, Pedido pedido, Date dateVencimento, Date dataPagamento) {
         super(id, estado, pedido);
-        this.dataVencimento = dataVencimento;
+        this.dataVencimento = dateVencimento;
         this.dataPagamento = dataPagamento;    
     }
 

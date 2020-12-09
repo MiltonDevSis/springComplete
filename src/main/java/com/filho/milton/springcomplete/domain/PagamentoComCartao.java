@@ -1,7 +1,10 @@
 package com.filho.milton.springcomplete.domain;
 
+import javax.persistence.Entity;
+
 import com.filho.milton.springcomplete.domain.enums.EstadoPagamento;
 
+@Entity
 public class PagamentoComCartao extends Pagamento {
     private static final long serialVersionUID = 1L;
 
