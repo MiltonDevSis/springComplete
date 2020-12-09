@@ -22,7 +22,4 @@ public class PagamentoComCartao extends Pagamento {
     public void setNumeroDePArcelas(Integer numeroDePArcelas) {
         this.numeroDePArcelas = numeroDePArcelas;
     }
-
-    
-
 }
