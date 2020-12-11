@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.filho.milton.springcomplete.domain.Categoria;
+import com.filho.milton.springcomplete.dto.CategoriaDTO;
 import com.filho.milton.springcomplete.repositories.CategoriaRepository;
 import com.filho.milton.springcomplete.services.exceptions.DataIntegrityException;
 import com.filho.milton.springcomplete.services.exceptions.ObjectNotFoundException;
@@ -59,4 +60,8 @@ public class CategoriaService {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
         return repo.findAll(pageRequest);
     }
+
+    public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+	}
 }
