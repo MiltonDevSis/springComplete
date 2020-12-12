@@ -18,17 +18,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CategoriaService {
-
-    @Autowired
-    private CategoriaRepository repo;
-
-    public Optional<Categoria> find(Integer id) {
-        Optional<Categoria> obj = repo.findById(id);
+	
+	@Autowired
+	private CategoriaRepository repo;
+	
+	public Categoria find(Integer id) {
+		Optional<Categoria> obj = repo.findById(id);
 		if (obj == null) {
 			throw new ObjectNotFoundException("Objeto não encontrado! Id: " + id
 					+ ", Tipo: " + Categoria.class.getName());
 		}
-		return obj;
+		return obj.orElse(null);
 	}
 	
 	public Categoria insert(Categoria obj) {
@@ -37,8 +37,9 @@ public class CategoriaService {
 	}
 	
 	public Categoria update(Categoria obj) {
-		find(obj.getId());
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 
 	public void delete(Integer id) {
@@ -62,5 +63,9 @@ public class CategoriaService {
 	
 	public Categoria fromDTO(CategoriaDTO objDto) {
 		return new Categoria(objDto.getId(), objDto.getNome());
+	}
+
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 }
