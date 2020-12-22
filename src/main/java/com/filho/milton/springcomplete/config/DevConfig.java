@@ -3,6 +3,8 @@ package com.filho.milton.springcomplete.config;
 import java.text.ParseException;
 
 import com.filho.milton.springcomplete.services.DBService;
+import com.filho.milton.springcomplete.services.EmailService;
+import com.filho.milton.springcomplete.services.SmtpEmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,5 +31,10 @@ public class DevConfig {
 
 		dbService.instantiateTestDatabase();
 		return true;
+	}
+
+	@Bean
+	public EmailService emailService() {
+		return new SmtpEmailService();
 	}
 }
